@@ -1,16 +1,17 @@
 use std::io;
 use std::thread;
 use std::time::Duration;
+use rand::{thread_rng, Rng};
 
 mod text_effects;
 
 use text_effects::text_effect::TextEffect;
 use text_effects::scattering::Scattering;
 use text_effects::typewriter::Typewriter;
+use text_effects::scrolling::{ScrollingLeft, ScrollingRight};
 
 mod structs;
 
-use rand::{thread_rng, Rng};
 use structs::animation;
 use structs::frame;
 
@@ -80,9 +81,9 @@ impl<TE: TextEffect> Frame<TE> {
 
 fn main() {
     let frames = vec![
-        Frame::new("I am in love with you please marry me!", Scattering),
-        Frame::new("Alice alice alice alice alice alice", Scattering),
-        Frame::new("I want to be with you forever!", Scattering),
+        Frame::new("I am in love with you please marry me!", ScrollingLeft),
+        Frame::new("Alice alice alice alice alice alice", ScrollingLeft),
+        Frame::new("I want to be with you forever!", ScrollingLeft),
     ];
     let mut animation = Animation::new(frames);
     loop {
