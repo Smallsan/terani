@@ -3,6 +3,7 @@ use std::io::{self, stdout, Write};
 use crate::text_effects::text_effect::TextEffect;
 pub struct ColorChanging;
 
+/// This implementation of the TextEffect trait will change the color of the text.
 impl TextEffect for ColorChanging {
     fn apply(&self, text: &str) -> Vec<String> {
         let colors = ["red", "green", "yellow", "blue", "magenta", "cyan"];

@@ -8,6 +8,8 @@ use crossterm::queue;
 /// BROKEN BROKEN BROKEN
 pub struct ScrollingLeft;
 
+
+/// BROKEN BROKEN BROKEN
 impl TextEffect for ScrollingLeft {
     fn apply(&self, text: &str) -> Vec<String> {
         let mut frames = vec![];

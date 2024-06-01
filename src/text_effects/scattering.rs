@@ -6,6 +6,7 @@ use crate::text_effects::text_effect::TextEffect;
 
 pub struct Scattering;
 
+/// This implementation of the TextEffect trait will scatter the text.
 impl TextEffect for Scattering {
     fn apply(&self, text: &str) -> Vec<String> {
         let mut rng = thread_rng();

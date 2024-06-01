@@ -3,6 +3,7 @@ use std::io::{self, stdout, Write};
 use crate::text_effects::text_effect::TextEffect;
 pub struct Typewriter;
 
+/// This implementation of the TextEffect trait will make the text appear as if it was being typed.
 impl TextEffect for Typewriter {
     fn apply(&self, text: &str) -> Vec<String> {
         let mut frames = vec![];
