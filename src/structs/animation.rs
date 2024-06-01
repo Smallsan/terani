@@ -49,13 +49,18 @@ impl<TE: TextEffect> Animation<TE> {
         frame.display(self.current_subframe)
     }
 
-    /// Advances the animation to the next subframe within the current frame.
-    fn advance_frame(&mut self) {
+    /// Advances the animation to the next subframe within the current frame. You shouldn't use this, use `next_frame` instead.
+    pub fn advance_frame(&mut self) {
         let frame = &self.frames[self.current_frame];
         self.current_subframe = (self.current_subframe + 1) % frame.content.len();
         if self.current_subframe == 0 {
             self.current_frame = (self.current_frame + 1) % self.frames.len();
         }
+    }
+
+    /// Checks if the animation has finished.
+    pub fn is_finished(&self) -> bool {
+        self.current_frame >= self.frames.len()
     }
 
     /// Pauses the animation.

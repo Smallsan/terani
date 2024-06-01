@@ -1,7 +1,6 @@
 use std::time::Duration;
 
-use terani::{Animation, Frame, Climbing};
-
+use terani::{Animation, Frame, Climbing, Scheduler};
 
 fn main() {
     let frames = vec![
