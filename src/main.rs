@@ -23,40 +23,45 @@ pub struct Animation<TE: TextEffect> {
     current_frame: usize,
     current_subframe: usize,
     paused: bool,
+    speed: Duration,
 }
 
 impl<TE: TextEffect> Animation<TE> {
-    fn new(frames: Vec<Frame<TE>>) -> Self {
+    pub fn new(frames: Vec<Frame<TE>>, speed: Duration) -> Self {
         Self {
             frames,
             current_frame: 0,
             current_subframe: 0,
             paused: false,
+            speed,
         }
     }
-
-    fn next_frame(&mut self) -> (&Frame<TE>, usize) {
+    pub fn next_frame(&mut self) -> io::Result<()> {
         if !self.paused {
-            let frame = &self.frames[self.current_frame];
-            self.current_subframe = (self.current_subframe + 1) % frame.content.len();
-            if self.current_subframe == 0 {
-                self.current_frame = (self.current_frame + 1) % self.frames.len();
-            }
-            (frame, self.current_subframe)
-        } else {
-            (&self.frames[self.current_frame], self.current_subframe)
+            self.advance_frame();
+            thread::sleep(self.speed);
+        }
+        let frame = &self.frames[self.current_frame];
+        frame.display(self.current_subframe)
+    }
+
+    fn advance_frame(&mut self) {
+        let frame = &self.frames[self.current_frame];
+        self.current_subframe = (self.current_subframe + 1) % frame.content.len();
+        if self.current_subframe == 0 {
+            self.current_frame = (self.current_frame + 1) % self.frames.len();
         }
     }
 
-    fn pause(&mut self) {
+    pub fn pause(&mut self) {
         self.paused = true;
     }
 
-    fn resume(&mut self) {
+    pub fn resume(&mut self) {
         self.paused = false;
     }
 
-    fn is_paused(&self) -> bool {
+    pub fn is_paused(&self) -> bool {
         self.paused
     }
 }
@@ -88,14 +93,11 @@ fn main() {
         Frame::new("Alice alice alice alice alice alice", Climbing),
         Frame::new("I want to be with you forever!", Climbing),
     ];
-    let mut animation = Animation::new(frames);
+    let mut animation = Animation::new(frames, Duration::from_millis(100));
     loop {
-        let (current_frame, current_subframe) = animation.next_frame();
-        current_frame.display(current_subframe).unwrap();
-        thread::sleep(Duration::from_millis(100));
-        if !animation.is_paused() {
-            animation.pause();
-            animation.resume();
-        } 
+        if let Err(e) = animation.next_frame() {
+            eprintln!("Error displaying frame: {}", e);
+            break;
+        }
     }
 }
