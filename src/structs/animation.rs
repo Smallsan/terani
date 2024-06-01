@@ -4,8 +4,8 @@ use std::time::Duration;
 use crate::text_effects::text_effect::TextEffect;
 use crate::structs::frame::Frame;
 
-pub struct Animation<TE: TextEffect> {
-    frames: Vec<Frame<TE>>,
+pub struct Animation {
+    frames: Vec<Frame>,
     current_frame: usize,
     current_subframe: usize,
     paused: bool,
@@ -14,7 +14,7 @@ pub struct Animation<TE: TextEffect> {
 
 /// Represents an animation with a sequence of frames and a speed.
 /// The animation can be paused, resumed, and advanced to the next frame.
-impl<TE: TextEffect> Animation<TE> {
+impl Animation {
     /// Creates a new animation with the given frames and speed.
     ///
     /// # Arguments
@@ -25,7 +25,7 @@ impl<TE: TextEffect> Animation<TE> {
     /// # Returns
     ///
     /// The newly created animation.
-    pub fn new(frames: Vec<Frame<TE>>, speed: Duration) -> Self {
+    pub fn new(frames: Vec<Frame>, speed: Duration) -> Self {
         Self {
             frames,
             current_frame: 0,

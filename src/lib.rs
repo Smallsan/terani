@@ -12,5 +12,4 @@ pub mod structs;
 
 pub use structs::animation::Animation;
 pub use structs::frame::Frame;
-pub use structs::scheduler::Scheduler;
 

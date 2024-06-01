@@ -1,12 +1,12 @@
 use std::io;
 use crate::text_effects::text_effect::TextEffect;
 
-pub struct Frame<TE: TextEffect> {
+pub struct Frame {
     pub content: Vec<String>,
-    pub text_effect: TE,
+    pub text_effect: Box<dyn TextEffect>,
 }
 
-impl<TE: TextEffect> Frame<TE> {
+impl Frame {
     /// Creates a new `Frame` with the given `text` and `text_effect`.
     ///
     /// # Arguments
@@ -17,7 +17,7 @@ impl<TE: TextEffect> Frame<TE> {
     /// # Returns
     ///
     /// A new `Frame` instance.
-    pub fn new(text: &str, text_effect: TE) -> Self {
+    pub fn new(text: &str, text_effect: Box<dyn TextEffect>) -> Self {
         Self {
             content: text_effect.apply(text),
             text_effect,
